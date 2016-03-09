@@ -6,8 +6,9 @@
 
     <color name="white">#fff</color>
     <color name="grey_e">#eee</color>
-    <color name="grey_c">#ccc</color>
+    <color name="grey_ed">#ededed</color>
     <color name="grey_d2d1d1">#d2d1d1</color>
     <color name="grey_3">#333</color>
     <color name="black">#000</color>
+    <color name="black_t_3">#33000000</color>
 </resources>

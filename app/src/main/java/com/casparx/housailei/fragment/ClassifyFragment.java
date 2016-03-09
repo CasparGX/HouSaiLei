@@ -1,19 +1,28 @@
 package com.casparx.housailei.fragment;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
+import com.casparx.housailei.DemoAdapter;
 import com.casparx.housailei.R;
+import com.casparx.housailei.model.DemoModel;
+
+import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ClassifyFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ClassifyFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -23,10 +32,16 @@ public class ClassifyFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @Bind(R.id.classify_gridview)
+    GridView classifyGridview;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<DemoModel> demoModelList;
+
+    private Resources resources;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +80,41 @@ public class ClassifyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_classify, container, false);
+        View view = inflater.inflate(R.layout.fragment_classify, container, false);
+        ButterKnife.bind(this, view);
+        init(inflater);
+        return view;
+    }
+
+    private void init(LayoutInflater inflater) {
+        resources = getResources();
+        initDemoData();
+        DemoAdapter demoAdapter = new DemoAdapter(inflater, demoModelList);
+        classifyGridview.setAdapter(demoAdapter);
+        classifyGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+    }
+
+    private void initDemoData() {
+        demoModelList = new ArrayList<DemoModel>();
+            DemoModel demoModel = new DemoModel();
+            demoModel.setDec("123");
+            demoModel.setTitle("123");
+            demoModel.setPic(resources.getDrawable(R.drawable.img1));
+
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
+        demoModelList.add(demoModel);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,12 +130,18 @@ public class ClassifyFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

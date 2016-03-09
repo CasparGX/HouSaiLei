@@ -12,6 +12,7 @@
 
     <!--content-->
     <fragment
+        android:layout_marginBottom="55dp"
         android:id="@+id/fragment_friends"
         android:name="com.casparx.housailei.fragment.FriendsFragment"
         android:layout_width="match_parent"
@@ -23,6 +24,7 @@
         tools:layout="@layout/fragment_friends" />
 
     <fragment
+        android:layout_marginBottom="55dp"
         android:id="@+id/fragment_classify"
         android:name="com.casparx.housailei.fragment.ClassifyFragment"
         android:layout_width="match_parent"
@@ -34,6 +36,7 @@
         tools:layout="@layout/fragment_classify" />
 
     <fragment
+        android:layout_marginBottom="55dp"
         android:id="@+id/fragment_msg"
         android:name="com.casparx.housailei.fragment.MsgFragment"
         android:layout_width="match_parent"
@@ -45,6 +48,7 @@
         tools:layout="@layout/fragment_msg" />
 
     <fragment
+        android:layout_marginBottom="55dp"
         android:id="@+id/fragment_me"
         android:name="com.casparx.housailei.fragment.MeFragment"
         android:layout_width="match_parent"
@@ -157,8 +161,8 @@
 
             <ImageView
                 android:id="@+id/btn_camera"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bot_nav_camera" />

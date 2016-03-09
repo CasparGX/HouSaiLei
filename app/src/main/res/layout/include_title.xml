@@ -18,9 +18,10 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
+        android:scaleType="centerInside"
         android:layout_marginRight="14dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/search"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
