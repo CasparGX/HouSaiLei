@@ -6,57 +6,162 @@
     tools:context="com.casparx.housailei.MainActivity">
 
     <!--头部标题-->
-    <include layout="@layout/include_title"
-        android:id="@+id/include" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/include_title" />
 
     <!--content-->
     <fragment
+        android:id="@+id/fragment_friends"
+        android:name="com.casparx.housailei.fragment.FriendsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        tools:layout="@layout/fragment_friends" />
+
+    <fragment
+        android:id="@+id/fragment_classify"
         android:name="com.casparx.housailei.fragment.ClassifyFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/include"
+        android:layout_alignBottom="@+id/relativeLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_below="@+id/include"
         tools:layout="@layout/fragment_classify" />
+
+    <fragment
+        android:id="@+id/fragment_msg"
+        android:name="com.casparx.housailei.fragment.MsgFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        tools:layout="@layout/fragment_msg" />
+
+    <fragment
+        android:id="@+id/fragment_me"
+        android:name="com.casparx.housailei.fragment.MeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        tools:layout="@layout/fragment_me" />
 
     <!--底部按钮-->
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="75dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/relativeLayout">
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:background="@color/grey_e"
+            android:gravity="bottom"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:id="@+id/btn_friends"
+                style="@style/ClassifyTapImagesLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    style="@style/BotNavImg"
+                    android:src="@drawable/bot_nav_1" />
+
+                <TextView
+                    style="@style/TextDefault"
+                    android:text="@string/friends" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_classify"
+                style="@style/ClassifyTapImagesLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    style="@style/BotNavImg"
+                    android:src="@drawable/bot_nav_2" />
+
+                <TextView
+                    style="@style/TextDefault"
+                    android:text="@string/classify" />
+            </LinearLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/BotNavImg"
+                android:layout_weight="1"
+                android:src="@drawable/bot_nav_camera_bg" />
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/btn_msg"
+                style="@style/ClassifyTapImagesLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    style="@style/BotNavImg"
+                    android:src="@drawable/bot_nav_3" />
 
-            <ImageView
+                <TextView
+                    style="@style/TextDefault"
+                    android:text="@string/message" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_me"
+                style="@style/ClassifyTapImagesLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    style="@style/BotNavImg"
+                    android:src="@drawable/bot_nav_4" />
+
+                <TextView
+                    style="@style/TextDefault"
+                    android:text="@string/me" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="75dp"
+                android:background="@drawable/bot_nav_camera_bg" />
+
+            <ImageView
+                android:id="@+id/btn_camera"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bot_nav_camera" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
