@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">HouSaiLei</string>
+
+    <string name="friends">朋友</string>
+    <string name="classify">分类</string>
+    <string name="message">消息</string>
+    <string name="me">我</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
