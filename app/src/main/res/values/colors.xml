@@ -11,4 +11,5 @@
     <color name="grey_3">#333</color>
     <color name="black">#000</color>
     <color name="black_t_3">#33000000</color>
+    <color name="black_t_6">#66000000</color>
 </resources>
