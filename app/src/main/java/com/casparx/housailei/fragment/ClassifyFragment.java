@@ -101,20 +101,52 @@ public class ClassifyFragment extends Fragment {
 
     private void initDemoData() {
         demoModelList = new ArrayList<DemoModel>();
-            DemoModel demoModel = new DemoModel();
-            demoModel.setDec("123");
-            demoModel.setTitle("123");
-            demoModel.setPic(resources.getDrawable(R.drawable.img1));
+        DemoModel demoModel1 = new DemoModel();
+        demoModel1.setTitle("天空");
+        demoModel1.setDec("要点：晴天的时候，将手机放在地上仰拍，设置定时，两人牵手摆出爱心的形状。");
+        demoModel1.setPic(resources.getDrawable(R.drawable.demo_img1));
+        DemoModel demoModel2 = new DemoModel();
+        demoModel2.setTitle("前方探路");
+        demoModel2.setDec("要点：女生在前，男生在后，两人靠近，左手放在额头处做出远望的动作，配合上夸张的表情。");
+        demoModel2.setPic(resources.getDrawable(R.drawable.demo_img2));
+        DemoModel demoModel3 = new DemoModel();
+        demoModel3.setTitle("忘情舞蹈");
+        demoModel3.setDec("要点：男生女生做出舞蹈的动作，眼神交流。");
+        demoModel3.setPic(resources.getDrawable(R.drawable.demo_img3));
+        DemoModel demoModel4 = new DemoModel();
+        demoModel4.setTitle("为您服务");
+        demoModel4.setDec("要点：女生在前，男生在后，两人靠近，稍微鞠躬，把手合并放在膝盖上面，眼神往后。");
+        demoModel4.setPic(resources.getDrawable(R.drawable.demo_img4));
+        DemoModel demoModel5 = new DemoModel();
+        demoModel5.setTitle("放大镜");
+        demoModel5.setDec("要点：需要道具（放大镜），女士拿着放大镜“观察”镜头，露出笑容，男生在一旁做出夸张的动作。");
+        demoModel5.setPic(resources.getDrawable(R.drawable.demo_img5));
+        DemoModel demoModel6 = new DemoModel();
+        demoModel6.setTitle("夫唱妇随");
+        demoModel6.setDec("要点：需要道具（任何可以咬着的东西）男生抱着女生，男生下巴顶着女生的头看远处，女生低头看镜头。由第三人帮忙拍摄。");
+        demoModel6.setPic(resources.getDrawable(R.drawable.demo_img6));
+        DemoModel demoModel7 = new DemoModel();
+        demoModel7.setTitle("吃惊？吃面！");
+        demoModel7.setDec("要点：需要道具（任何可以咬着的东西）。男女直起腰看向镜头，作出诧异的表情。");
+        demoModel7.setPic(resources.getDrawable(R.drawable.demo_img7));
+        DemoModel demoModel8 = new DemoModel();
+        demoModel8.setTitle("假装无脸");
+        demoModel8.setDec("要点：把衣服反着穿（后面穿到前面），然后以背对着镜头，双手放在背后。");
+        demoModel8.setPic(resources.getDrawable(R.drawable.demo_img8));
+        DemoModel demoModel9 = new DemoModel();
+        demoModel9.setTitle("纸巾下巴");
+        demoModel9.setDec("要点：需要道具（纸巾或者其他连在一起的东西），男生稍微抬头，望向天空，女生低头看向镜头。");
+        demoModel9.setPic(resources.getDrawable(R.drawable.demo_img9));
 
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
-        demoModelList.add(demoModel);
+        demoModelList.add(demoModel1);
+        demoModelList.add(demoModel2);
+        demoModelList.add(demoModel3);
+        demoModelList.add(demoModel4);
+        demoModelList.add(demoModel5);
+        demoModelList.add(demoModel6);
+        demoModelList.add(demoModel7);
+        demoModelList.add(demoModel8);
+        demoModelList.add(demoModel9);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -141,7 +173,7 @@ public class ClassifyFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

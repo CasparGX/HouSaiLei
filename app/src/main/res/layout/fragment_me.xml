@@ -1,13 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_e"
     tools:context="com.casparx.housailei.fragment.MeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="123"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

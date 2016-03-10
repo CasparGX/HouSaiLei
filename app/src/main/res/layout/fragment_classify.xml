@@ -18,7 +18,7 @@
                 android:layout_height="200dp" />
             <LinearLayout
                 android:orientation="horizontal"
-                android:background="@color/white"
+                android:background="@color/grey_e"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <FrameLayout
@@ -103,10 +103,12 @@
 
             </LinearLayout>
             <GridView
+                android:clipToPadding="false"
                 android:horizontalSpacing="10dp"
-                android:verticalSpacing="0dp"
+                android:verticalSpacing="10dp"
+                android:padding="10dp"
                 android:numColumns="3"
-                android:background="@color/grey_ed"
+                android:background="@color/grey_de"
                 android:id="@+id/classify_gridview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
