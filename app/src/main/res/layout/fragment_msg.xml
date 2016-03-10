@@ -1,13 +1,42 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.casparx.housailei.fragment.MsgFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item1">
+        <ImageView style="@style/MsgTableRowIcon"
+            android:src="@drawable/msg_common"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="评论"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item2">
+        <ImageView style="@style/MsgTableRowIcon"
+            android:src="@drawable/msg_zan"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="点攒"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item3">
+        <ImageView style="@style/MsgTableRowIcon"
+            android:src="@mipmap/ic_launcher"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="小助手"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item4">
+        <ImageView style="@style/MsgTableRowIcon"
+            android:src="@drawable/msg_touxiang"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="小五学长"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

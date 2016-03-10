@@ -1,19 +1,23 @@
 package com.casparx.housailei.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.casparx.housailei.R;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MsgFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link MsgFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -23,6 +27,18 @@ public class MsgFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @Bind(R.id.item1)
+    LinearLayout item1;
+    @Bind(R.id.item2)
+    LinearLayout item2;
+    @Bind(R.id.item3)
+    LinearLayout item3;
+    @Bind(R.id.item4)
+    LinearLayout item4;
+    @OnClick(R.id.item1) void onclick1(){}
+    @OnClick(R.id.item2) void onclick2(){}
+    @OnClick(R.id.item3) void onclick3(){}
+    @OnClick(R.id.item4) void onclick4(){}
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +81,9 @@ public class MsgFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_msg, container, false);
+        View view = inflater.inflate(R.layout.fragment_msg, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,6 +97,12 @@ public class MsgFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     /**

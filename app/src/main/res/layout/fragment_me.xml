@@ -2,11 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_e"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.casparx.housailei.fragment.MeFragment">
 
-    <LinearLayout style="@style/MeTableRow"
+    <LinearLayout
+        android:id="@+id/item1"
+        style="@style/MeTableRow"
         android:layout_marginTop="20dp">
         <ImageView android:layout_width="60dp"
             android:layout_height="60dp"
@@ -23,6 +25,7 @@
         style="@style/MeTableRowLineView"/>
 
     <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item2"
         android:layout_marginTop="20dp">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_person"/>
@@ -32,7 +35,8 @@
     </LinearLayout>
     <View
         style="@style/MeTableRowLineView"/>
-    <LinearLayout style="@style/MeTableRow">
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item3">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_shoucang"/>
         <TextView style="@style/MeTableRowText"
@@ -41,7 +45,8 @@
     </LinearLayout>
     <View
         style="@style/MeTableRowLineView"/>
-    <LinearLayout style="@style/MeTableRow">
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item4">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_supermarket"/>
         <TextView style="@style/MeTableRowText"
@@ -50,7 +55,8 @@
     </LinearLayout>
     <View
         style="@style/MeTableRowLineView"/>
-    <LinearLayout style="@style/MeTableRow">
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item5">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_dingzhi"/>
         <TextView style="@style/MeTableRowText"
@@ -59,7 +65,8 @@
     </LinearLayout>
     <View
         style="@style/MeTableRowLineView"/>
-    <LinearLayout style="@style/MeTableRow">
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item6">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_guanzhu"/>
         <TextView style="@style/MeTableRowText"
@@ -68,7 +75,8 @@
     </LinearLayout>
     <View
         style="@style/MeTableRowLineView"/>
-    <LinearLayout style="@style/MeTableRow">
+    <LinearLayout style="@style/MeTableRow"
+        android:id="@+id/item7">
         <ImageView style="@style/MeTableRowIcon"
             android:src="@drawable/me_shezhi"/>
         <TextView style="@style/MeTableRowText"
