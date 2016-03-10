@@ -19,7 +19,7 @@
         <ImageView style="@style/MsgTableRowIcon"
             android:src="@drawable/msg_zan"/>
         <TextView style="@style/MeTableRowText"
-            android:text="点攒"/>
+            android:text="点赞"/>
         <ImageView style="@style/MeTableRowMore" />
     </LinearLayout>
     <LinearLayout style="@style/MeTableRow"
