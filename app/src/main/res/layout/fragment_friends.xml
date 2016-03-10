@@ -88,9 +88,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <ImageView android:layout_width="wrap_content"
+                <ImageView android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/friends_pinglun"/>
+                <ImageView android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/friends_zan"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:paddingTop="30dp"
+                android:background="@drawable/friends_pinglun_background">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textColor="@color/grey_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="小幸运2333："/>
+                    <TextView
+                        android:textColor="@color/grey_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="这照片真不错"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textColor="@color/grey_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我不冷："/>
+                    <TextView
+                        android:textColor="@color/grey_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我好喜欢啊，谁拍的，求介绍"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
