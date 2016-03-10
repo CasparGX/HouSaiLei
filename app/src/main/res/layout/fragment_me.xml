@@ -3,13 +3,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_e"
+    android:orientation="vertical"
     tools:context="com.casparx.housailei.fragment.MeFragment">
 
-    <LinearLayout style="@style/MeTableRow">
-        <ImageView style="@style/MeTableRowIcon"/>
+    <LinearLayout style="@style/MeTableRow"
+        android:layout_marginTop="20dp">
+        <ImageView android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/me_touxiang"/>
         <TextView style="@style/MeTableRowText"
-            android:text="123"/>
+            android:text="速度七十迈心情左右摇摆"/>
+        <ImageView android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/me_erweima"
+            android:layout_marginRight="10dp"/>
         <ImageView style="@style/MeTableRowMore" />
     </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+
+    <LinearLayout style="@style/MeTableRow"
+        android:layout_marginTop="20dp">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_person"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="个人信息"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_shoucang"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="我的收藏"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_supermarket"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="影印超市"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_dingzhi"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="专属定制"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_guanzhu"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="我的关注"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
+    <LinearLayout style="@style/MeTableRow">
+        <ImageView style="@style/MeTableRowIcon"
+            android:src="@drawable/me_shezhi"/>
+        <TextView style="@style/MeTableRowText"
+            android:text="我的设置"/>
+        <ImageView style="@style/MeTableRowMore" />
+    </LinearLayout>
+    <View
+        style="@style/MeTableRowLineView"/>
 
 </LinearLayout>
