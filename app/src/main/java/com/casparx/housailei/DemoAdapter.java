@@ -1,5 +1,8 @@
 package com.casparx.housailei;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.casparx.housailei.model.DemoModel;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +25,7 @@ public class DemoAdapter extends BaseAdapter {
 
     private ImageView pic;
     private TextView title;
+
 
     public DemoAdapter(LayoutInflater inflater, ArrayList<DemoModel> data) {
         this.inflater = inflater;
@@ -49,38 +54,26 @@ public class DemoAdapter extends BaseAdapter {
             pic = (ImageView) view.findViewById(R.id.demo_pic);
             title = (TextView) view.findViewById(R.id.demo_title);
         }
-        pic.setImageDrawable(data.get(i).getPic());
-        switch (i) {
-            case 0:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img1));
-                break;
-            case 1:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img2));
-                break;
-            case 2:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img3));
-                break;
-            case 3:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img4));
-                break;
-            case 4:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img5));
-                break;
-            case 5:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img6));
-                break;
-            case 6:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img7));
-                break;
-            case 7:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img8));
-                break;
-            case 8:
-                pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.demo_img9));
-                break;
-        }
+        //pic.setImageResource(data.get(i).getResId());
+        pic.setImageBitmap(readBitMap(inflater.getContext(),data.get(i).getResId()));
         //pic.setImageDrawable(inflater.getContext().getResources().getDrawable(R.drawable.me_touxiang));
         title.setText(data.get(i).getTitle());
         return view;
+    }
+
+    /**
+     * 以最省内存的方式读取本地资源的图片
+     * @param context
+     * @param resId
+     * @return
+     */
+    public static Bitmap readBitMap(Context context, int resId){
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+        opt.inPurgeable = true;
+        opt.inInputShareable = true;
+        //获取资源图片
+        InputStream is = context.getResources().openRawResource(resId);
+        return BitmapFactory.decodeStream(is,null,opt);
     }
 }

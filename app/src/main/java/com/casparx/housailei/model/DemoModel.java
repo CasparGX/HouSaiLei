@@ -1,14 +1,12 @@
 package com.casparx.housailei.model;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by root on 16-3-9.
  */
 public class DemoModel {
     private String title;
     private String dec;
-    private Drawable pic;
+    private int resId;
 
     public String getTitle() {
         return title;
@@ -18,12 +16,12 @@ public class DemoModel {
         this.title = title;
     }
 
-    public Drawable getPic() {
-        return pic;
+    public int getResId() {
+        return resId;
     }
 
-    public void setPic(Drawable pic) {
-        this.pic = pic;
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     public String getDec() {
