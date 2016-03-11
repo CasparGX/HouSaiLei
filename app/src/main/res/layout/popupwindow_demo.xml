@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/demo_pic"
+        android:scaleType="fitStart"
+        android:src="@drawable/demo_img2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/demo_title"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/grey_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="biaoti"/>
+    <TextView
+        android:id="@+id/demo_content"
+        android:padding="10dp"
+        android:textColor="@color/grey_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="efasfsgsdgdgfdgsd"/>
+    <TextView
+        android:padding="10dp"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/take_photo"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="马上拍一张"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</LinearLayout>

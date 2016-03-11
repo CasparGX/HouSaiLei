@@ -1,14 +1,22 @@
 package com.casparx.housailei.fragment;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.casparx.housailei.DemoAdapter;
 import com.casparx.housailei.R;
@@ -94,7 +102,7 @@ public class ClassifyFragment extends Fragment {
         classifyGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                showPopupWindowDemo(view, demoModelList.get(i));
             }
         });
     }
@@ -138,6 +146,16 @@ public class ClassifyFragment extends Fragment {
         demoModel9.setDec("要点：需要道具（纸巾或者其他连在一起的东西），男生稍微抬头，望向天空，女生低头看向镜头。");
         demoModel9.setPic(resources.getDrawable(R.drawable.demo_img9));
 
+        demoModel1.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel2.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel3.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel4.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel5.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel6.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel7.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel8.setPic(resources.getDrawable(R.drawable.me_touxiang));
+        demoModel9.setPic(resources.getDrawable(R.drawable.me_touxiang));
+
         demoModelList.add(demoModel1);
         demoModelList.add(demoModel2);
         demoModelList.add(demoModel3);
@@ -147,6 +165,60 @@ public class ClassifyFragment extends Fragment {
         demoModelList.add(demoModel7);
         demoModelList.add(demoModel8);
         demoModelList.add(demoModel9);
+    }
+
+
+    private void showPopupWindowDemo(View view, DemoModel demoModel) {
+        //自定义布局
+        View contentView = LayoutInflater.from(getActivity()).inflate(
+                R.layout.popupwindow_demo, null);
+        TextView demoTitle = (TextView) contentView.findViewById(R.id.demo_title);
+        TextView demoContent = (TextView) contentView.findViewById(R.id.demo_content);
+        TextView demoTakePhoto = (TextView) contentView.findViewById(R.id.take_photo);
+        ImageView demoPic = (ImageView) contentView.findViewById(R.id.demo_pic);
+        demoContent.setText(demoModel.getDec());
+        demoTitle.setText(demoModel.getTitle());
+        demoPic.setImageDrawable(demoModel.getPic());
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setTouchable(true);
+        backgroundAlpha(0.5f, this.getActivity());
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f, getActivity());
+            }
+        });
+
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.tablerow_default_bg));
+        popupWindow.setHeight(view.getWidth()*3);
+        popupWindow.setWidth(view.getWidth()*2);
+        // 设置好参数之后再show
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * @param bgAlpha
+     */
+    public static void backgroundAlpha(float bgAlpha, Activity activity)
+    {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        activity.getWindow().setAttributes(lp);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
