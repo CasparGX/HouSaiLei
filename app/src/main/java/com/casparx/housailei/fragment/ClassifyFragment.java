@@ -181,6 +181,11 @@ public class ClassifyFragment extends Fragment {
         //demoPic.setImageResource(demoModel.getResId());
         demoPic.setImageBitmap(DemoAdapter.readBitMap(getActivity(),demoModel.getResId()));
 
+        ViewGroup.LayoutParams param = demoPic.getLayoutParams();
+        param.width = (int) (view.getWidth()*2.5);
+        param.height = param.width;
+        demoPic.setLayoutParams(param);
+
         final PopupWindow popupWindow = new PopupWindow(contentView,
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
 
@@ -205,8 +210,8 @@ public class ClassifyFragment extends Fragment {
         // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
         // 我觉得这里是API的一个bug
         popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.tablerow_default_bg));
-        popupWindow.setHeight(view.getWidth()*3);
-        popupWindow.setWidth(view.getWidth()*2);
+        //popupWindow.setHeight((int) (view.getWidth()*3.5));
+        popupWindow.setWidth((int) (view.getWidth()*2.5));
         // 设置好参数之后再show
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
