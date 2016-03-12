@@ -1,6 +1,7 @@
 package com.casparx.housailei;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,12 @@ public class MainActivity extends FragmentActivity {
     ImageView btnCamera;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
+    @OnClick(R.id.btn_camera) void onClickBtnCamera(){
+        Intent intent = new Intent();
+        intent.setClass(this,CameraActivity.class);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.btn_friends)
     void onClickBtnFriends() {
