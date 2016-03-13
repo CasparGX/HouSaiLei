@@ -98,6 +98,7 @@ public class ClassifyFragment extends Fragment {
         resources = getResources();
         initDemoData();
         DemoAdapter demoAdapter = new DemoAdapter(inflater, demoModelList);
+        classifyGridview.setFocusable(false);
         classifyGridview.setAdapter(demoAdapter);
         classifyGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,6 +106,8 @@ public class ClassifyFragment extends Fragment {
                 showPopupWindowDemo(view, demoModelList.get(i));
             }
         });
+        classifyGridview.getMeasuredWidth();
+        classifyGridview.measure(classifyGridview.getMeasuredWidth(),classifyGridview.getMeasuredWidth());
     }
 
     private void initDemoData() {

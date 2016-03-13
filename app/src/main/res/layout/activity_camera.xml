@@ -6,14 +6,19 @@
     android:orientation="vertical"
     tools:context="com.casparx.housailei.CameraActivity">
 
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/img_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <SurfaceView
         android:id="@+id/layout_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <ImageView
-        android:id="@+id/btn_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_take_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/bot_nav_camera"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

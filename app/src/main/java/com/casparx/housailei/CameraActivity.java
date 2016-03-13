@@ -1,122 +1,184 @@
 package com.casparx.housailei;
 
 import android.app.Activity;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.os.Environment;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     @Bind(R.id.layout_camera)
     SurfaceView layoutCamera;
-    @Bind(R.id.btn_camera)
-    ImageView btnCamera;
+    @Bind(R.id.btn_take_photo)
+    ImageView btnTakePhoto;
+    @Bind(R.id.img_photo)
+    ImageView imgPhoto;
 
-    private Camera camera;
+
+    private Camera mCamera;
     private boolean isMove;
-    private SurfaceHolder surfaceholder;
+    private SurfaceHolder mHolder;
+    private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] bytes, Camera camera) {
+            String photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera/";
+            File tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
+                    .toString() + ".jpg");
+            Log.i(photoDir,tempFile+"");
+            try {
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(bytes);
+                fos.close();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
-        ButterKnife.bind(this);
+                showPhoto(tempFile.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    private int screenWidth;
+    private int screenHeight;
 
-        init();
-        surfaceholder = layoutCamera.getHolder();
-        surfaceholder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        surfaceholder.addCallback(CameraActivity.this);
+    private void showPhoto(String path) {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(path);
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90);
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            imgPhoto.setVisibility(View.VISIBLE);
+            layoutCamera.setVisibility(View.GONE);
+            //Bitmap bitmap = BitmapFactory.decodeFile(path);
+            imgPhoto.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void init() {
-        btnCamera.setOnTouchListener(new View.OnTouchListener() {
+    @OnClick(R.id.btn_take_photo)
+    void onClickBtnTakePhoto() {
+        Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setPictureFormat(ImageFormat.JPEG);
+        parameters.setPreviewSize(1920, 1080);
+        parameters.setJpegQuality(100);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        mCamera.autoFocus(new Camera.AutoFocusCallback() {
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        isMove = true;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (isMove) {
-                            moveBtnCamera(x, y);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        isMove = false;
-                        break;
+            public void onAutoFocus(boolean success, Camera camera) {
+                if (success) {
+                    mCamera.takePicture(null, null, mPictureCallback);
                 }
-                return true;//处理了触摸消息，消息不再传递
             }
         });
     }
 
-    private void moveBtnCamera(int x, int y) {
-        int cameraX, cameraY;
-        ViewGroup.LayoutParams param = btnCamera.getLayoutParams();
-        cameraX = x<param.width ? 0: x;
-        cameraX = (x>layoutCamera.getWidth()-param.width) ? layoutCamera.getWidth()-param.width: x;
-        cameraY = y<param.width ? 0:y;
-        cameraY = (y>layoutCamera.getHeight()-param.width) ? layoutCamera.getHeight()-param.width: y;
-        btnCamera.setTop(cameraY);
-        btnCamera.setLeft(cameraX);
-    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 设置全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_camera);
+        ButterKnife.bind(this);
+
+        mHolder = layoutCamera.getHolder();
+        mHolder.addCallback(this);
+    }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        //获取camera对象
-        camera = Camera.open();
-        try {
-            //设置预览监听
-            camera.setPreviewDisplay(surfaceHolder);
-            Camera.Parameters parameters = camera.getParameters();
-
-            if (this.getResources().getConfiguration().orientation
-                    != Configuration.ORIENTATION_LANDSCAPE) {
-                parameters.set("orientation", "portrait");
-                camera.setDisplayOrientation(90);
-                parameters.setRotation(90);
-            } else {
-                parameters.set("orientation", "landscape");
-                camera.setDisplayOrientation(0);
-                parameters.setRotation(0);
-            }
-            camera.setParameters(parameters);
-            //启动摄像头预览
-            camera.startPreview();
-            System.out.println("camera.startpreview");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            camera.release();
-            System.out.println("camera.release");
-        }
+        setStartPreview(mCamera, mHolder);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
+        mCamera.stopPreview();
+        setStartPreview(mCamera, mHolder);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        if (camera != null) {
-            camera.stopPreview();
-            camera.release();
+        releaseCamera();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCamera == null) {
+            mCamera = getCamera();
+            if (mHolder != null) {
+                setStartPreview(mCamera, mHolder);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releaseCamera();
+    }
+
+    /**
+     * 获取Camera对象
+     */
+    private Camera getCamera() {
+        Camera camera;
+        try {
+            camera = Camera.open();
+        } catch (Exception e) {
             camera = null;
+            e.printStackTrace();
+        }
+        return camera;
+    }
+
+
+    /**
+     * 开始预览相机内容
+     */
+    private void setStartPreview(Camera camera, SurfaceHolder holder) {
+        try {
+            camera.setPreviewDisplay(holder);
+            //将系统camera预览角度进行调整
+            camera.setDisplayOrientation(90);
+            camera.startPreview();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 释放相机资源
+     */
+    private void releaseCamera() {
+        if (mCamera != null) {
+            mCamera.setPreviewCallback(null);
+            mCamera.stopPreview();
+            mCamera.release();
+            mCamera = null;
         }
     }
 }

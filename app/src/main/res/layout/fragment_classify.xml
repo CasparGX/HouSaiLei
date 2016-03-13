@@ -4,119 +4,145 @@
     android:layout_height="match_parent"
     tools:context="com.casparx.housailei.fragment.ClassifyFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:layout_below="@+id/include"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_below="@+id/include"
             android:orientation="vertical">
+
             <ImageView
-                android:src="@drawable/classify_header_new"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:src="@drawable/classify_header_new" />
+
             <LinearLayout
-                android:orientation="horizontal"
-                android:background="@color/grey_e"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/grey_e"
+                android:orientation="horizontal">
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/biaoqingbao"/>
+                        android:src="@drawable/biaoqingbao" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="表情包"/>
+                        android:gravity="center"
+                        android:text="表情包" />
                 </FrameLayout>
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/danren"/>
+                        android:src="@drawable/danren" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="单人"/>
+                        android:gravity="center"
+                        android:text="单人" />
                 </FrameLayout>
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/qinglv"/>
+                        android:src="@drawable/qinglv" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="情侣"/>
+                        android:gravity="center"
+                        android:text="情侣" />
                 </FrameLayout>
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/guimi"/>
+                        android:src="@drawable/guimi" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="闺密"/>
+                        android:gravity="center"
+                        android:text="闺密" />
                 </FrameLayout>
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/jiyou"/>
+                        android:src="@drawable/jiyou" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="基友"/>
+                        android:gravity="center"
+                        android:text="基友" />
                 </FrameLayout>
+
                 <FrameLayout
                     style="@style/ClassifyTapImagesLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         style="@style/ClassifyTapImages"
-                        android:src="@drawable/tuanti"/>
+                        android:src="@drawable/tuanti" />
+
                     <TextView
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="小团体"/>
+                        android:gravity="center"
+                        android:text="小团体" />
                 </FrameLayout>
 
 
             </LinearLayout>
-            <GridView
-                android:clipToPadding="false"
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="10dp"
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="25dp"
-                android:numColumns="3"
-                android:background="@color/grey_de"
+
+            <com.casparx.housailei.view.MyGridView
                 android:id="@+id/classify_gridview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/grey_de"
+                android:clipToPadding="false"
+                android:horizontalSpacing="10dp"
+                android:numColumns="3"
+                android:paddingBottom="25dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:verticalSpacing="10dp">
 
-            </GridView>
+            </com.casparx.housailei.view.MyGridView>
         </LinearLayout>
 
+    </ScrollView>
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.casparx.housailei;
+package com.casparx.housailei.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
