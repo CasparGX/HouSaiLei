@@ -1,6 +1,7 @@
 package com.casparx.housailei.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.casparx.housailei.CameraActivity;
 import com.casparx.housailei.DemoAdapter;
 import com.casparx.housailei.R;
 import com.casparx.housailei.model.DemoModel;
@@ -171,7 +173,7 @@ public class ClassifyFragment extends Fragment {
     }
 
 
-    private void showPopupWindowDemo(View view, DemoModel demoModel) {
+    private void showPopupWindowDemo(View view, final DemoModel demoModel) {
         //自定义布局
         View contentView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.popupwindow_demo, null);
@@ -183,6 +185,18 @@ public class ClassifyFragment extends Fragment {
         demoTitle.setText(demoModel.getTitle());
         //demoPic.setImageResource(demoModel.getResId());
         demoPic.setImageBitmap(DemoAdapter.readBitMap(getActivity(),demoModel.getResId()));
+
+        demoTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), CameraActivity.class);
+                intent.putExtra("pic",demoModel.getResId());
+                intent.putExtra("dec",demoModel.getDec());
+                intent.putExtra("title",demoModel.getTitle());
+                startActivity(intent);
+            }
+        });
 
         ViewGroup.LayoutParams param = demoPic.getLayoutParams();
         param.width = (int) (view.getWidth()*2.5);

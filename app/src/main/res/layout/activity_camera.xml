@@ -54,7 +54,6 @@
         android:layout_height="60dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_alignBottom="@+id/btn_take_photo"
         android:layout_toEndOf="@+id/img_photo"
         android:layout_toRightOf="@+id/img_photo"
         android:src="@drawable/bot_nav_camera" />
@@ -66,7 +65,6 @@
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:layout_alignBottom="@+id/btn_take_photo"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/bot_nav_camera" />

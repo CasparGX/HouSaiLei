@@ -3,6 +3,7 @@ package com.casparx.housailei;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -18,6 +19,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.casparx.housailei.model.DemoModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,39 +49,21 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     ImageView btnDelete;
     @Bind(R.id.btn_ok)
     ImageView btnOk;
-
-    @OnClick(R.id.btn_ok) void onClickBtnOk(View view){
-        onTakePhoto();
-    }
-
-    private void onTakePhoto() {
-        imgPhoto.setVisibility(View.GONE);
-        btnDelete.setVisibility(View.GONE);
-        btnOk.setVisibility(View.GONE);
-
-        btnTakePhoto.setVisibility(View.VISIBLE);
-        btnGallery.setVisibility(View.VISIBLE);
-        btnTip.setVisibility(View.VISIBLE);
-        layoutCamera.setVisibility(View.VISIBLE);
-    }
-
     private Camera mCamera;
     private boolean isMove;
     private SurfaceHolder mHolder;
+    private File tempFile;
     private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] bytes, Camera camera) {
             String photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera/";
-            File tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
+            tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
                     .toString() + ".jpg");
             Log.i(photoDir, bytes.length + "");
             try {
                 FileOutputStream fos = new FileOutputStream(tempFile);
                 fos.write(bytes);
                 fos.close();
-
-                //通知扫描文件
-                MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile + ""}, null, null);
 
                 Uri uri = Uri.fromFile(tempFile);
                 showPhoto(uri);
@@ -89,6 +74,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     };
     private int screenWidth;
     private int screenHeight;
+    private DemoModel demoModel;
 
     /**
      * 以最省内存的方式读取本地资源的图片
@@ -105,6 +91,34 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         //获取资源图片
         //InputStream is = context.getResources().openRawResource(resId);
         return BitmapFactory.decodeStream(is, null, opt);
+    }
+
+    @OnClick(R.id.btn_ok)
+    void onClickBtnOk(View view) {
+        //通知扫描文件
+        MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile + ""}, null, null);
+        initCamera();
+        onTakePhoto();
+        setStartPreview(mCamera, mHolder);
+    }
+
+    @OnClick(R.id.btn_delete)
+    void onClickBtnDelete(View view) {
+        tempFile.delete();
+        initCamera();
+        onTakePhoto();
+        setStartPreview(mCamera, mHolder);
+    }
+
+    private void onTakePhoto() {
+        imgPhoto.setVisibility(View.GONE);
+        btnDelete.setVisibility(View.GONE);
+        btnOk.setVisibility(View.GONE);
+
+        btnTakePhoto.setVisibility(View.VISIBLE);
+        btnGallery.setVisibility(View.VISIBLE);
+        btnTip.setVisibility(View.VISIBLE);
+        layoutCamera.setVisibility(View.VISIBLE);
     }
 
     private void showPhoto(Uri uri) {
@@ -155,6 +169,22 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
 
+        initCamera();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("pic")) {
+            demoModel = new DemoModel();
+            demoModel.setResId(intent.getIntExtra("pic", 1));
+            demoModel.setDec(intent.getStringExtra("dec"));
+            demoModel.setTitle(intent.getStringExtra("title"));
+            btnTip.setImageBitmap(DemoAdapter.readBitMap(this, demoModel.getResId()));
+        }
+
+
+    }
+
+    private void initCamera() {
+        mCamera = getCamera();
         mHolder = layoutCamera.getHolder();
         mHolder.addCallback(this);
     }
