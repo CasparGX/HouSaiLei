@@ -1,12 +1,14 @@
 package com.casparx.housailei;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
-import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.format.DateFormat;
@@ -19,7 +21,6 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,13 +49,17 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             String photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera/";
             File tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
                     .toString() + ".jpg");
-            Log.i(photoDir,bytes.length+"");
+            Log.i(photoDir, bytes.length + "");
             try {
                 FileOutputStream fos = new FileOutputStream(tempFile);
                 fos.write(bytes);
                 fos.close();
 
-                showPhoto(tempFile.getAbsolutePath());
+                //通知扫描文件
+                MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile+""}, null, null);
+
+                Uri uri = Uri.fromFile(tempFile);
+                showPhoto(uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -63,23 +68,31 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private int screenWidth;
     private int screenHeight;
 
-    private void showPhoto(String path) {
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(path);
+    /**
+     * 以最省内存的方式读取本地资源的图片
+     *
+     * @param context
+     * @param is
+     * @return
+     */
+    public static Bitmap readBitMap(Context context, InputStream is) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+        opt.inPurgeable = true;
+        opt.inInputShareable = true;
+        //获取资源图片
+        //InputStream is = context.getResources().openRawResource(resId);
+        return BitmapFactory.decodeStream(is, null, opt);
+    }
 
-            Matrix matrix = new Matrix();
-            matrix.setRotate(90);
-            Bitmap bitmap = BitmapFactory.decodeStream(fis);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            imgPhoto.setVisibility(View.VISIBLE);
-            layoutCamera.setVisibility(View.GONE);
-            //Bitmap bitmap = BitmapFactory.decodeFile(path);
-            //imgPhoto.setImageBitmap(bitmap);
-            imgPhoto.setImageBitmap(readBitMap(this,fis));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    private void showPhoto(Uri uri) {
+        imgPhoto.setVisibility(View.VISIBLE);
+        btnTakePhoto.setVisibility(View.GONE);
+
+        FileInputStream fis = null;
+        Bitmap bm = compressBitmap(null, null, this, uri, 4, false);
+        //imgPhoto.setImageBitmap(readBitMap(this, fis));
+        imgPhoto.setImageBitmap(bm);
     }
 
     @OnClick(R.id.btn_take_photo)
@@ -89,7 +102,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         Camera.Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes());
         parameters.setPreviewSize(s.width, s.height);
         s = getBestSupportedSize(parameters.getSupportedPictureSizes());
-        parameters.setPictureSize(s.width,s.height);
+        parameters.setPictureSize(s.width, s.height);
+        mCamera.setDisplayOrientation(90);
         parameters.setJpegQuality(100);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
         mCamera.setParameters(parameters);
@@ -101,22 +115,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 }
             }
         });
-    }
-
-    /**
-     * 以最省内存的方式读取本地资源的图片
-     * @param context
-     * @param is
-     * @return
-     */
-    public static Bitmap readBitMap(Context context, InputStream is){
-        BitmapFactory.Options opt = new BitmapFactory.Options();
-        opt.inPreferredConfig = Bitmap.Config.RGB_565;
-        opt.inPurgeable = true;
-        opt.inInputShareable = true;
-        //获取资源图片
-        //InputStream is = context.getResources().openRawResource(resId);
-        return BitmapFactory.decodeStream(is,null,opt);
     }
 
     @Override
@@ -206,8 +204,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
     }
 
-    /******************************************]
-     *
+    /******************************************
+     * ]
+     * <p/>
      * 穷举法找出具有最大数目像素的尺寸
      *
      * @param sizes
@@ -215,14 +214,64 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
      */
     public Camera.Size getBestSupportedSize(List<Camera.Size> sizes) {
         Camera.Size bestSize = sizes.get(0);
-        int largestArea = bestSize.width*bestSize.height;
-        for (Camera.Size s :sizes) {
-            int area =s.width*s.height;
-            if (area>largestArea) {
-                bestSize=s;
+        int largestArea = bestSize.width * bestSize.height;
+        for (Camera.Size s : sizes) {
+            int area = s.width * s.height;
+            if (area > largestArea) {
+                bestSize = s;
                 largestArea = area;
             }
         }
         return bestSize;
     }
+
+    /**
+     * 图片压缩处理，size参数为压缩比，比如size为2，则压缩为1/4
+     **/
+    private Bitmap compressBitmap(String path, byte[] data, Context context, Uri uri, int size, boolean width) {
+        BitmapFactory.Options options = null;
+        if (size > 0) {
+            BitmapFactory.Options info = new BitmapFactory.Options();
+/**如果设置true的时候，decode时候Bitmap返回的为数据将空*/
+            info.inJustDecodeBounds = false;
+            decodeBitmap(path, data, context, uri, info);
+            int dim = info.outWidth;
+            if (!width) dim = Math.max(dim, info.outHeight);
+            options = new BitmapFactory.Options();
+/**把图片宽高读取放在Options里*/
+            options.inSampleSize = size;
+        }
+        Bitmap bm = null;
+        try {
+            bm = decodeBitmap(path, data, context, uri, options);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bm;
+    }
+
+
+    /**
+     * 把byte数据解析成图片
+     */
+    private Bitmap decodeBitmap(String path, byte[] data, Context context, Uri uri, BitmapFactory.Options options) {
+        Bitmap result = null;
+        if (path != null) {
+            result = BitmapFactory.decodeFile(path, options);
+        } else if (data != null) {
+            result = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        } else if (uri != null) {
+            ContentResolver cr = context.getContentResolver();
+            InputStream inputStream = null;
+            try {
+                inputStream = cr.openInputStream(uri);
+                result = BitmapFactory.decodeStream(inputStream, null, options);
+                inputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 }
