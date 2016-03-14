@@ -38,7 +38,29 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     ImageView btnTakePhoto;
     @Bind(R.id.img_photo)
     ImageView imgPhoto;
+    @Bind(R.id.btn_gallery)
+    ImageView btnGallery;
+    @Bind(R.id.btn_tip)
+    ImageView btnTip;
+    @Bind(R.id.btn_delete)
+    ImageView btnDelete;
+    @Bind(R.id.btn_ok)
+    ImageView btnOk;
 
+    @OnClick(R.id.btn_ok) void onClickBtnOk(View view){
+        onTakePhoto();
+    }
+
+    private void onTakePhoto() {
+        imgPhoto.setVisibility(View.GONE);
+        btnDelete.setVisibility(View.GONE);
+        btnOk.setVisibility(View.GONE);
+
+        btnTakePhoto.setVisibility(View.VISIBLE);
+        btnGallery.setVisibility(View.VISIBLE);
+        btnTip.setVisibility(View.VISIBLE);
+        layoutCamera.setVisibility(View.VISIBLE);
+    }
 
     private Camera mCamera;
     private boolean isMove;
@@ -56,7 +78,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 fos.close();
 
                 //通知扫描文件
-                MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile+""}, null, null);
+                MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile + ""}, null, null);
 
                 Uri uri = Uri.fromFile(tempFile);
                 showPhoto(uri);
@@ -87,7 +109,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     private void showPhoto(Uri uri) {
         imgPhoto.setVisibility(View.VISIBLE);
+        btnDelete.setVisibility(View.VISIBLE);
+        btnOk.setVisibility(View.VISIBLE);
+
+        layoutCamera.setVisibility(View.GONE);
+        btnGallery.setVisibility(View.GONE);
+        btnTip.setVisibility(View.GONE);
         btnTakePhoto.setVisibility(View.GONE);
+
+        //releaseCamera();
 
         FileInputStream fis = null;
         Bitmap bm = compressBitmap(null, null, this, uri, 4, false);
