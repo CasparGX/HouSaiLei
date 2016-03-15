@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -72,9 +73,16 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     .toString() + ".jpg");
             Log.i(photoDir, bytes.length + "");
             try {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Matrix matrix = new Matrix();
+                matrix.setRotate(90);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                 FileOutputStream fos = new FileOutputStream(tempFile);
-                fos.write(bytes);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.close();
+                /*FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(bytes);
+                fos.close();*/
 
                 Uri uri = Uri.fromFile(tempFile);
                 showPhoto(uri);
@@ -181,10 +189,17 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     void onClickBtnTakePhoto() {
         Camera.Parameters parameters = mCamera.getParameters();
         parameters.setPictureFormat(ImageFormat.JPEG);
+
         Camera.Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes());
-        parameters.setPreviewSize(s.width, s.height);
+        int width = s.width > 1080 ? 1080 : s.width;
+        int height = s.height > 1920 ? 1920 : s.height;
+        parameters.setPreviewSize(width, height);
+
         s = getBestSupportedSize(parameters.getSupportedPictureSizes());
-        parameters.setPictureSize(s.width, s.height);
+        width = s.width > 1080 ? 1080 : s.width;
+        height = s.height > 1920 ? 1920 : s.height;
+        parameters.setPictureSize(width, height);
+
         mCamera.setDisplayOrientation(90);
         parameters.setJpegQuality(100);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
@@ -302,11 +317,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
     }
 
-    /******************************************
-     * ]
-     * <p/>
+    /*****************************************
      * 穷举法找出具有最大数目像素的尺寸
-     *
      * @param sizes
      * @return
      */
@@ -374,11 +386,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (isTip) {
             onClickTipLayout();
         } else if (isTaked) {
             onClickBtnDelete(new View(this));
+        } else {
+            super.onBackPressed();
         }
     }
 }
