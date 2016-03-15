@@ -117,6 +117,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         return BitmapFactory.decodeStream(is, null, opt);
     }
 
+    @OnClick(R.id.btn_gallery) void onClickBtnGallery(){
+        Intent i = new Intent(
+                Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivity(i);
+
+    }
+
     @OnClick(R.id.btn_tip)
     void onClickBtnTip(View view) {
         showTipPopupwindow();
