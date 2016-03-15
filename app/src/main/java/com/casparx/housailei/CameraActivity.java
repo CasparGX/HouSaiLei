@@ -13,6 +13,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -65,37 +66,39 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private boolean isMove;
     private SurfaceHolder mHolder;
     private File tempFile;
-    private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] bytes, Camera camera) {
-            String photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera/";
-            tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
-                    .toString() + ".jpg");
-            Log.i(photoDir, bytes.length + "");
-            try {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Matrix matrix = new Matrix();
-                matrix.setRotate(90);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                FileOutputStream fos = new FileOutputStream(tempFile);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.close();
-                /*FileOutputStream fos = new FileOutputStream(tempFile);
-                fos.write(bytes);
-                fos.close();*/
-
-                Uri uri = Uri.fromFile(tempFile);
-                showPhoto(uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
     private int screenWidth;
     private int screenHeight;
     private DemoModel demoModel;
     private boolean isTip;
     private boolean isTaked;
+    private Camera.Size preSize;
+    private Camera.Size picSize;
+    private byte[] imgBytes;
+    private Bitmap imgBitmap;
+    private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] bytes, Camera camera) {
+            imgBytes = bytes;
+            String photoDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera/";
+            tempFile = new File(photoDir + DateFormat.format("yyyy-MM-dd kk.mm.ss", System.currentTimeMillis())
+                    .toString() + ".jpg");
+            Log.i(photoDir, bytes.length + "");
+
+            Bitmap bm = new BitmapFactory().decodeByteArray(bytes, 0, bytes.length);
+            Matrix matrix = new Matrix();
+            matrix.setRotate(90);
+            bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+
+            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bm, null, null));
+            showPhoto(uri);
+
+
+                /*FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(bytes);
+                fos.close();*/
+
+        }
+    };
 
     /**
      * 以最省内存的方式读取本地资源的图片
@@ -119,7 +122,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         showTipPopupwindow();
     }
 
-    @OnClick(R.id.tip_layout) void onClickTipLayout(){
+    @OnClick(R.id.tip_layout)
+    void onClickTipLayout() {
         tipLayout.setVisibility(View.GONE);
         isTip = false;
     }
@@ -138,6 +142,19 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     @OnClick(R.id.btn_ok)
     void onClickBtnOk(View view) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+        Matrix matrix = new Matrix();
+        matrix.setRotate(90);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //通知扫描文件
         MediaScannerConnection.scanFile(CameraActivity.this, new String[]{tempFile + ""}, null, null);
         initCamera();
@@ -148,7 +165,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     @OnClick(R.id.btn_delete)
     void onClickBtnDelete(View view) {
-        tempFile.delete();
+        //tempFile.delete();
+        imgBytes = null;
         initCamera();
         onTakePhoto();
         setStartPreview(mCamera, mHolder);
@@ -187,23 +205,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     @OnClick(R.id.btn_take_photo)
     void onClickBtnTakePhoto() {
-        Camera.Parameters parameters = mCamera.getParameters();
-        parameters.setPictureFormat(ImageFormat.JPEG);
-
-        Camera.Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes());
-        int width = s.width > 1080 ? 1080 : s.width;
-        int height = s.height > 1920 ? 1920 : s.height;
-        parameters.setPreviewSize(width, height);
-
-        s = getBestSupportedSize(parameters.getSupportedPictureSizes());
-        width = s.width > 1080 ? 1080 : s.width;
-        height = s.height > 1920 ? 1920 : s.height;
-        parameters.setPictureSize(width, height);
-
-        mCamera.setDisplayOrientation(90);
-        parameters.setJpegQuality(100);
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-        mCamera.setParameters(parameters);
         mCamera.autoFocus(new Camera.AutoFocusCallback() {
             @Override
             public void onAutoFocus(boolean success, Camera camera) {
@@ -240,6 +241,16 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         mCamera = getCamera();
         mHolder = layoutCamera.getHolder();
         mHolder.addCallback(this);
+        Camera.Parameters parameters = mCamera.getParameters();
+        preSize = getBestSupportedSize(parameters.getSupportedPreviewSizes());
+        parameters.setPreviewSize(preSize.width, preSize.height);
+        picSize = getBestSupportedSize(parameters.getSupportedPictureSizes());
+        parameters.setPictureSize(picSize.width, picSize.height);
+        parameters.setPictureFormat(ImageFormat.JPEG);
+        mCamera.setDisplayOrientation(90);
+        parameters.setJpegQuality(100);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        mCamera.setParameters(parameters);
     }
 
     @Override
@@ -319,6 +330,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     /*****************************************
      * 穷举法找出具有最大数目像素的尺寸
+     *
      * @param sizes
      * @return
      */
@@ -327,9 +339,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         int largestArea = bestSize.width * bestSize.height;
         for (Camera.Size s : sizes) {
             int area = s.width * s.height;
-            if (area > largestArea) {
-                bestSize = s;
-                largestArea = area;
+            Log.i("size", s.width + " " + s.height);
+            if (s.width > 800 && s.width < 2000) {
+                if (area > largestArea) {
+                    bestSize = s;
+                    largestArea = area;
+                }
             }
         }
         return bestSize;
