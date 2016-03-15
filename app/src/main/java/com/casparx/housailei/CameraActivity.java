@@ -17,8 +17,11 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.casparx.housailei.model.DemoModel;
 
@@ -49,6 +52,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     ImageView btnDelete;
     @Bind(R.id.btn_ok)
     ImageView btnOk;
+    @Bind(R.id.tip_pic)
+    ImageView tipPic;
+    @Bind(R.id.tip_title)
+    TextView tipTitle;
+    @Bind(R.id.tip_content)
+    TextView tipContent;
+    @Bind(R.id.tip_layout)
+    LinearLayout tipLayout;
     private Camera mCamera;
     private boolean isMove;
     private SurfaceHolder mHolder;
@@ -75,6 +86,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private int screenWidth;
     private int screenHeight;
     private DemoModel demoModel;
+    private boolean isTip;
+    private boolean isTaked;
 
     /**
      * 以最省内存的方式读取本地资源的图片
@@ -93,6 +106,28 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         return BitmapFactory.decodeStream(is, null, opt);
     }
 
+    @OnClick(R.id.btn_tip)
+    void onClickBtnTip(View view) {
+        showTipPopupwindow();
+    }
+
+    @OnClick(R.id.tip_layout) void onClickTipLayout(){
+        tipLayout.setVisibility(View.GONE);
+        isTip = false;
+    }
+
+    private void showTipPopupwindow() {
+        ViewGroup.LayoutParams params = tipPic.getLayoutParams();
+        params.height = layoutCamera.getWidth();
+        params.width = params.height;
+        tipPic.setLayoutParams(params);
+        tipPic.setImageBitmap(DemoAdapter.readBitMap(this, demoModel.getResId()));
+        tipTitle.setText(demoModel.getTitle());
+        tipContent.setText(demoModel.getDec());
+        tipLayout.setVisibility(View.VISIBLE);
+        isTip = true;
+    }
+
     @OnClick(R.id.btn_ok)
     void onClickBtnOk(View view) {
         //通知扫描文件
@@ -100,6 +135,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         initCamera();
         onTakePhoto();
         setStartPreview(mCamera, mHolder);
+        isTaked = false;
     }
 
     @OnClick(R.id.btn_delete)
@@ -108,6 +144,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         initCamera();
         onTakePhoto();
         setStartPreview(mCamera, mHolder);
+        isTaked = false;
     }
 
     private void onTakePhoto() {
@@ -122,6 +159,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
     private void showPhoto(Uri uri) {
+        isTaked = true;
         imgPhoto.setVisibility(View.VISIBLE);
         btnDelete.setVisibility(View.VISIBLE);
         btnOk.setVisibility(View.VISIBLE);
@@ -334,4 +372,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         return result;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isTip) {
+            onClickTipLayout();
+        } else if (isTaked) {
+            onClickBtnDelete(new View(this));
+        }
+    }
 }

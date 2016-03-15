@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.casparx.housailei.model.DemoModel;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +38,13 @@ public class MainActivity extends FragmentActivity {
     @OnClick(R.id.btn_camera) void onClickBtnCamera(){
         Intent intent = new Intent();
         intent.setClass(this,CameraActivity.class);
+        DemoModel demoModel = new DemoModel();
+        demoModel.setTitle("放大镜");
+        demoModel.setDec("要点：需要道具（放大镜），女士拿着放大镜“观察”镜头，露出笑容，男生在一旁做出夸张的动作。");
+        demoModel.setResId(R.drawable.demo_img5);
+        intent.putExtra("pic",demoModel.getResId());
+        intent.putExtra("dec",demoModel.getDec());
+        intent.putExtra("title",demoModel.getTitle());
         startActivity(intent);
     }
 
