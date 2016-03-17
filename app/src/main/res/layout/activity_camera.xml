@@ -37,7 +37,7 @@
         android:layout_alignBottom="@+id/btn_take_photo"
         android:layout_toEndOf="@+id/img_photo"
         android:layout_toRightOf="@+id/img_photo"
-        android:src="@drawable/bot_nav_camera" />
+        android:src="@drawable/camera_cancle2" />
 
     <com.casparx.housailei.view.RoundRectImageView
         android:id="@+id/btn_tip"
@@ -60,7 +60,7 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/bot_nav_camera" />
+        android:src="@drawable/camera_cancle" />
 
     <ImageView
         android:visibility="gone"
@@ -71,7 +71,7 @@
         android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/bot_nav_camera" />
+        android:src="@drawable/camera_right" />
 
     <LinearLayout
         android:id="@+id/tip_layout"

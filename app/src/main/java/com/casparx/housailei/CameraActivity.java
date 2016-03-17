@@ -118,10 +118,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
     @OnClick(R.id.btn_gallery) void onClickBtnGallery(){
-        Intent i = new Intent(
+        /*Intent i = new Intent(
                 Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivity(i);
-
+        startActivity(i);*/
+        onBackPressed();
     }
 
     @OnClick(R.id.btn_tip)
