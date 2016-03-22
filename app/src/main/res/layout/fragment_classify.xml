@@ -152,19 +152,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <ImageView
-                    android:id="@+id/img_1"
-                    android:src="@drawable/danren1"
+                    android:id="@+id/demo_img"
+                    android:src="@drawable/tuanti_img1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/img_2"
-                    android:src="@drawable/danren1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/img_3"
-                    android:src="@drawable/danren1"                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="1000dp" />
             </LinearLayout>
         </LinearLayout>
 

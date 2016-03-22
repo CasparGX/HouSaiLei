@@ -63,14 +63,10 @@ public class ClassifyFragment extends Fragment {
     FrameLayout btnJiyou;
     @Bind(R.id.btn_tuanti)
     FrameLayout btnTuanti;
-    @Bind(R.id.img_1)
-    ImageView img1;
-    @Bind(R.id.img_2)
-    ImageView img2;
-    @Bind(R.id.img_3)
-    ImageView img3;
     @Bind(R.id.ll_img)
     LinearLayout llImg;
+    @Bind(R.id.demo_img)
+    ImageView demoImg;
 
     @OnClick(R.id.btn_baioqingbao)
     void onClickBtnBiaoqingbao() {
@@ -79,11 +75,8 @@ public class ClassifyFragment extends Fragment {
 
     @OnClick(R.id.btn_danren)
     void onClickBtnDanren() {
-        llImg.setVisibility(View.VISIBLE);
-        classifyGridview.setVisibility(View.GONE);
-        img1.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren1));
-        img2.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren2));
-        img3.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren3));
+        initDemoImg();
+        demoImg.setImageBitmap(DemoAdapter.readBitMap(getActivity(), R.drawable.danren_img1));
 
     }
 
@@ -95,6 +88,8 @@ public class ClassifyFragment extends Fragment {
 
     @OnClick(R.id.btn_guimi)
     void onClickBtnGuimi() {
+        initDemoImg();
+        demoImg.setImageBitmap(DemoAdapter.readBitMap(getActivity(), R.drawable.guimi_img1));
 
     }
 
@@ -105,7 +100,18 @@ public class ClassifyFragment extends Fragment {
 
     @OnClick(R.id.btn_tuanti)
     void onClickBtnTuanti() {
+        initDemoImg();
+        demoImg.setImageBitmap(DemoAdapter.readBitMap(getActivity(), R.drawable.tuanti_img1));
 
+    }
+
+    private void initDemoImg() {
+        ViewGroup.LayoutParams param = demoImg.getLayoutParams();
+        param.width = vpHeader.getWidth();
+        param.height = param.width;
+        demoImg.setLayoutParams(param);
+        llImg.setVisibility(View.VISIBLE);
+        classifyGridview.setVisibility(View.GONE);
     }
 
     // TODO: Rename and change types of parameters
@@ -174,6 +180,7 @@ public class ClassifyFragment extends Fragment {
         });
         classifyGridview.getMeasuredWidth();
         classifyGridview.measure(classifyGridview.getMeasuredWidth(), classifyGridview.getMeasuredWidth());
+
     }
 
     private void initHeaderViewPager() {
