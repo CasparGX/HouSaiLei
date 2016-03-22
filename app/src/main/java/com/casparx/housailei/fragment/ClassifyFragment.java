@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +51,62 @@ public class ClassifyFragment extends Fragment {
     GridView classifyGridview;
     @Bind(R.id.vp_header)
     ViewPager vpHeader;
+    @Bind(R.id.btn_baioqingbao)
+    FrameLayout btnBaioqingbao;
+    @Bind(R.id.btn_danren)
+    FrameLayout btnDanren;
+    @Bind(R.id.btn_qinglv)
+    FrameLayout btnQinglv;
+    @Bind(R.id.btn_guimi)
+    FrameLayout btnGuimi;
+    @Bind(R.id.btn_jiyou)
+    FrameLayout btnJiyou;
+    @Bind(R.id.btn_tuanti)
+    FrameLayout btnTuanti;
+    @Bind(R.id.img_1)
+    ImageView img1;
+    @Bind(R.id.img_2)
+    ImageView img2;
+    @Bind(R.id.img_3)
+    ImageView img3;
+    @Bind(R.id.ll_img)
+    LinearLayout llImg;
+
+    @OnClick(R.id.btn_baioqingbao)
+    void onClickBtnBiaoqingbao() {
+
+    }
+
+    @OnClick(R.id.btn_danren)
+    void onClickBtnDanren() {
+        llImg.setVisibility(View.VISIBLE);
+        classifyGridview.setVisibility(View.GONE);
+        img1.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren1));
+        img2.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren2));
+        img3.setImageBitmap(DemoAdapter.readBitMap(getActivity(),R.drawable.danren3));
+
+    }
+
+    @OnClick(R.id.btn_qinglv)
+    void onClickBtnQinglv() {
+        llImg.setVisibility(View.GONE);
+        classifyGridview.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_guimi)
+    void onClickBtnGuimi() {
+
+    }
+
+    @OnClick(R.id.btn_jiyou)
+    void onClickBtnJiyou() {
+
+    }
+
+    @OnClick(R.id.btn_tuanti)
+    void onClickBtnTuanti() {
+
+    }
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -129,6 +187,7 @@ public class ClassifyFragment extends Fragment {
             public boolean isViewFromObject(View view, Object object) {
                 return view == object;
             }
+
             @Override
             public Object instantiateItem(View container, final int position) {
                 int resId = R.drawable.huodong1;
@@ -155,7 +214,7 @@ public class ClassifyFragment extends Fragment {
                     public void onClick(View view) {
                         Intent intent = new Intent();
                         intent.setClass(getActivity(), ActionActivity.class);
-                        intent.putExtra("id",position);
+                        intent.putExtra("id", position);
                         startActivity(intent);
                     }
                 });
@@ -326,7 +385,7 @@ public class ClassifyFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
