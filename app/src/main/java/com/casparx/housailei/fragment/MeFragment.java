@@ -1,5 +1,6 @@
 package com.casparx.housailei.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.casparx.housailei.R;
+import com.casparx.housailei.YycsActivity;
+import com.casparx.housailei.ZsdzActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,18 +44,9 @@ public class MeFragment extends Fragment {
     LinearLayout item6;
     @Bind(R.id.item7)
     LinearLayout item7;
-    @OnClick(R.id.item1) void onclick1(){}
-    @OnClick(R.id.item2) void onclick2(){}
-    @OnClick(R.id.item3) void onclick3(){}
-    @OnClick(R.id.item4) void onclick4(){}
-    @OnClick(R.id.item5) void onclick5(){}
-    @OnClick(R.id.item6) void onclick6(){}
-    @OnClick(R.id.item7) void onclick7(){}
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public MeFragment() {
@@ -75,6 +69,40 @@ public class MeFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @OnClick(R.id.item1)
+    void onclick1() {
+    }
+
+    @OnClick(R.id.item2)
+    void onclick2() {
+    }
+
+    @OnClick(R.id.item3)
+    void onclick3() {
+    }
+
+    @OnClick(R.id.item4)
+    void onclick4() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), YycsActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.item5)
+    void onclick5() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), ZsdzActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.item6)
+    void onclick6() {
+    }
+
+    @OnClick(R.id.item7)
+    void onclick7() {
     }
 
     @Override
