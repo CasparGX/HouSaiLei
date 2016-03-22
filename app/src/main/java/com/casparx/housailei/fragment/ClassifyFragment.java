@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.casparx.housailei.ActionActivity;
 import com.casparx.housailei.CameraActivity;
 import com.casparx.housailei.DemoAdapter;
 import com.casparx.housailei.R;
@@ -149,6 +150,15 @@ public class ClassifyFragment extends Fragment {
                 }
                 imageView.setImageBitmap(DemoAdapter.readBitMap(getActivity(), resId));
                 ((ViewPager) container).addView(imageView, 0);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), ActionActivity.class);
+                        intent.putExtra("id",position);
+                        startActivity(intent);
+                    }
+                });
                 return imageView;
             }
 
