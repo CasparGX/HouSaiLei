@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,6 +46,8 @@ public class ClassifyFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     @Bind(R.id.classify_gridview)
     GridView classifyGridview;
+    @Bind(R.id.vp_header)
+    ViewPager vpHeader;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -98,6 +102,7 @@ public class ClassifyFragment extends Fragment {
 
     private void init(LayoutInflater inflater) {
         resources = getResources();
+        initHeaderViewPager();
         initDemoData();
         DemoAdapter demoAdapter = new DemoAdapter(inflater, demoModelList);
         classifyGridview.setFocusable(false);
@@ -109,7 +114,50 @@ public class ClassifyFragment extends Fragment {
             }
         });
         classifyGridview.getMeasuredWidth();
-        classifyGridview.measure(classifyGridview.getMeasuredWidth(),classifyGridview.getMeasuredWidth());
+        classifyGridview.measure(classifyGridview.getMeasuredWidth(), classifyGridview.getMeasuredWidth());
+    }
+
+    private void initHeaderViewPager() {
+        vpHeader.setAdapter(new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return 4;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+            @Override
+            public Object instantiateItem(View container, final int position) {
+                int resId = R.drawable.huodong1;
+                ImageView imageView = new ImageView(getActivity());
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                switch (position) {
+                    case 0:
+                        resId = R.drawable.huodong1;
+                        break;
+                    case 1:
+                        resId = R.drawable.huodong2;
+                        break;
+                    case 2:
+                        resId = R.drawable.huodong3;
+                        break;
+                    case 3:
+                        resId = R.drawable.huodong4;
+                        break;
+                }
+                imageView.setImageBitmap(DemoAdapter.readBitMap(getActivity(), resId));
+                ((ViewPager) container).addView(imageView, 0);
+                return imageView;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+                object = null;
+            }
+        });
     }
 
     private void initDemoData() {
@@ -184,22 +232,22 @@ public class ClassifyFragment extends Fragment {
         demoContent.setText(demoModel.getDec());
         demoTitle.setText(demoModel.getTitle());
         //demoPic.setImageResource(demoModel.getResId());
-        demoPic.setImageBitmap(DemoAdapter.readBitMap(getActivity(),demoModel.getResId()));
+        demoPic.setImageBitmap(DemoAdapter.readBitMap(getActivity(), demoModel.getResId()));
 
         demoTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), CameraActivity.class);
-                intent.putExtra("pic",demoModel.getResId());
-                intent.putExtra("dec",demoModel.getDec());
-                intent.putExtra("title",demoModel.getTitle());
+                intent.putExtra("pic", demoModel.getResId());
+                intent.putExtra("dec", demoModel.getDec());
+                intent.putExtra("title", demoModel.getTitle());
                 startActivity(intent);
             }
         });
 
         ViewGroup.LayoutParams param = demoPic.getLayoutParams();
-        param.width = (int) (view.getWidth()*2.5);
+        param.width = (int) (view.getWidth() * 2.5);
         param.height = param.width;
         demoPic.setLayoutParams(param);
 
@@ -228,17 +276,17 @@ public class ClassifyFragment extends Fragment {
         // 我觉得这里是API的一个bug
         popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.tablerow_default_bg));
         //popupWindow.setHeight((int) (view.getWidth()*3.5));
-        popupWindow.setWidth((int) (view.getWidth()*2.5));
+        popupWindow.setWidth((int) (view.getWidth() * 2.5));
         // 设置好参数之后再show
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     /**
      * 设置添加屏幕的背景透明度
+     *
      * @param bgAlpha
      */
-    public static void backgroundAlpha(float bgAlpha, Activity activity)
-    {
+    public static void backgroundAlpha(float bgAlpha, Activity activity) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         activity.getWindow().setAttributes(lp);
